@@ -1,5 +1,5 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import customHistory from "app/history";
+import customHistory from "utils/history";
 import { take, fork, call, put, delay } from "redux-saga/effects";
 import { authAction, LoginPayload } from "./authSlice";
 
@@ -12,7 +12,7 @@ function* handleLogin(payload: LoginPayload) {
             id: 1,
             name: "Long"
         }))
-        yield call(customHistory.push, "/");
+        yield call(customHistory.push, "/admin");
     } catch (error: any) {
         yield put(authAction.loginFail(error.message))
     }
@@ -22,6 +22,7 @@ function* handleLogout() {
     yield delay(500);
     console.log("handleLogout");
     localStorage.removeItem("access_Token");
+    yield call(customHistory.push, "/login");
 }
 
 function* watchLoginFlow() {

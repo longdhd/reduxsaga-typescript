@@ -5,9 +5,9 @@ import { store } from './app/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
-import { CssBaseline } from '@material-ui/core';
 import CustomRouter from 'components/Common/CustomRouter';
-import customHistory from 'app/history';
+import customHistory from 'utils/history';
+import { CssBaseline } from '@mui/material';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
