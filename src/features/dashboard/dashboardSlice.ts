@@ -11,6 +11,7 @@ export interface DashboardStats {
 
 export interface RankingByCity {
     cityId: string,
+    cityName: string,
     rankingList: Student[]
 }
 
