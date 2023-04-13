@@ -1,0 +1,18 @@
+import { PayloadAction } from "@reduxjs/toolkit";
+import studentApi from "api/studentApi";
+import { ListParams, ListReponse, Student } from "models";
+import { call, put, takeLatest } from "redux-saga/effects";
+import { studentActions } from "./studentSlice";
+
+function* fetchStudentList(action: PayloadAction<ListParams>) {
+    try {
+        const response: ListReponse<Student> = yield call(studentApi.getAll, action.payload);
+        yield put(studentActions.fetchStudentSuccess(response));
+    } catch (error) {
+        console.log("Failed to fetch students", error);
+    }
+}
+
+export default function* studentSaga() {
+    yield takeLatest(studentActions.fetchStudent.type, fetchStudentList)
+}
