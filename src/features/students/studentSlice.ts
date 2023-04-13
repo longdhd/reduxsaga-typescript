@@ -29,19 +29,21 @@ const studentSlice = createSlice({
     reducers: {
         fetchStudent(state, action: PayloadAction<ListParams>) {
             state.loading = true;
-         },
+        },
         fetchStudentSuccess(state, action: PayloadAction<ListReponse<Student>>) {
             state.loading = false;
             state.list = action.payload.data;
             state.pagination = action.payload.pagination;
-         },
-        fetchStudentFail(state, action) { 
+        },
+        fetchStudentFail(state, action) {
             state.loading = false;
         },
 
-        setFilter(state, action: PayloadAction<ListParams>) { 
+        setFilter(state, action: PayloadAction<ListParams>) {
             state.filter = action.payload;
-        }
+        },
+
+        setFilterWithDebouce(state, action: PayloadAction<ListParams>) { }
     }
 })
 
