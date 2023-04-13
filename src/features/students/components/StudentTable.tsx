@@ -6,12 +6,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { createStyles, makeStyles } from '@mui/styles';
-import { Student } from 'models';
+import { City, Student } from 'models';
 import * as React from 'react';
 import { capitalizeString, setMarkColor } from 'utils/common';
 
 interface StudentTableProps {
     studentList: Student[],
+    cityMap: {
+        [key: string]: City
+    }
     onEdit?: (student: Student) => void,
     onRemove?: (studentId: string | undefined) => void
 }
@@ -28,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 )
 
-export default function StudentTable({ studentList, onEdit, onRemove }: StudentTableProps) {
+export default function StudentTable({ studentList, cityMap, onEdit, onRemove }: StudentTableProps) {
     const classes = useStyles();
     return (
         <TableContainer>
@@ -60,7 +63,7 @@ export default function StudentTable({ studentList, onEdit, onRemove }: StudentT
                                     {student.mark}
                                 </Box>
                             </TableCell>
-                            <TableCell>{capitalizeString(student.city)}</TableCell>
+                            <TableCell>{cityMap[student.city]?.name}</TableCell>
                             <TableCell align='right'>
                                 <Button
                                     className={classes.edit}

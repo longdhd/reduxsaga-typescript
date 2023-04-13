@@ -2,7 +2,10 @@ import { Box, Button, LinearProgress, Theme, Typography } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import { createStyles, makeStyles } from '@mui/styles';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import React, { useEffect } from 'react';
+import { cityActions, selectCityList, selectCityMap } from 'features/city/citySlice';
+import { ListParams } from 'models';
+import React, { ChangeEvent, useEffect } from 'react';
+import StudentFilter from '../components/StudentFilter';
 import StudentTable from '../components/StudentTable';
 import { selectStudentFiler, selectStudentList, selectStudentLoading, selectStudentPagination, studentActions } from '../studentSlice';
 
@@ -41,17 +44,24 @@ export default function StudentList() {
   const studentList = useAppSelector(selectStudentList);
   const pagination = useAppSelector(selectStudentPagination);
   const filter = useAppSelector(selectStudentFiler);
+  const cityList = useAppSelector(selectCityList);
+  const cityMap = useAppSelector(selectCityMap);
 
   useEffect(() => {
+    dispatch(cityActions.fetchCity());
     dispatch(studentActions.fetchStudent(filter));
   }, [dispatch, filter])
 
-  const handlePageChange = (e: any, page: number) => {
-    e.preventDefault();
+  const handlePageChange = (e: ChangeEvent<unknown>, page: number) => {
     dispatch(studentActions.setFilter({
       ...filter,
       _page: page
     }))
+  }
+
+  const handleSearchChange = (filter: ListParams) => {
+    console.log("Search change", filter);
+    dispatch(studentActions.setFilterWithDebouce(filter));
   }
 
   console.log("studentList", studentList);
@@ -62,8 +72,11 @@ export default function StudentList() {
         <Typography variant="h4">Students</Typography>
         <Button variant='contained' color='primary'>Add New Student</Button>
       </Box>
-      {isLoading && <LinearProgress className={classes.loading}/>}
-      <StudentTable studentList={studentList} />
+      {isLoading && <LinearProgress className={classes.loading} />}
+      <Box mb={3}>
+        <StudentFilter filter={filter} cityList={cityList} onSearchChange={handleSearchChange}/>
+      </Box>
+      <StudentTable studentList={studentList} cityMap={cityMap} />
       <Box className={classes.pagination}>
         <Pagination
           count={Math.ceil(pagination._totalRows / pagination._limit)}

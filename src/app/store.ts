@@ -5,6 +5,7 @@ import rootSaga from './rootSaga';
 import authReducer from 'features/auth/authSlice';
 import dashboardReducer from 'features/dashboard/dashboardSlice';
 import studentReducer from 'features/students/studentSlice';
+import cityReducer from 'features/city/citySlice';
 
 const sagaMiddlware = createSagaMiddleware();
 
@@ -13,7 +14,8 @@ export const store = configureStore({
     counter: counterReducer,
     auth: authReducer,
     dashboard: dashboardReducer,
-    student: studentReducer
+    student: studentReducer,
+    city: cityReducer
   }, 
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddlware)
