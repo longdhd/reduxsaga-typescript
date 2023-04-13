@@ -1,7 +1,9 @@
+import { Box } from "@mui/material";
+
 export function Students() {
     return (
-      <div>
+      <Box>
           Students
-      </div>
+      </Box>
     )
   }
