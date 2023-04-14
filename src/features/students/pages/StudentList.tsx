@@ -60,11 +60,12 @@ export default function StudentList() {
   }
 
   const handleSearchChange = (filter: ListParams) => {
-    console.log("Search change", filter);
     dispatch(studentActions.setFilterWithDebouce(filter));
   }
 
-  console.log("studentList", studentList);
+  const handleFilterChange = (filter: ListParams) => {
+    dispatch(studentActions.setFilter(filter));
+  }
 
   return (
     <Box className={classes.root}>
@@ -74,7 +75,7 @@ export default function StudentList() {
       </Box>
       {isLoading && <LinearProgress className={classes.loading} />}
       <Box mb={3}>
-        <StudentFilter filter={filter} cityList={cityList} onSearchChange={handleSearchChange}/>
+        <StudentFilter filter={filter} cityList={cityList} onChange={handleFilterChange} onSearchChange={handleSearchChange}/>
       </Box>
       <StudentTable studentList={studentList} cityMap={cityMap} />
       <Box className={classes.pagination}>
