@@ -1,10 +1,12 @@
 import { Box, Button, LinearProgress, Theme, Typography } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import { createStyles, makeStyles } from '@mui/styles';
+import studentApi from 'api/studentApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { cityActions, selectCityList, selectCityMap } from 'features/city/citySlice';
-import { ListParams } from 'models';
+import { ListParams, Student } from 'models';
 import React, { ChangeEvent, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import StudentFilter from '../components/StudentFilter';
 import StudentTable from '../components/StudentTable';
 import { selectStudentFiler, selectStudentList, selectStudentLoading, selectStudentPagination, studentActions } from '../studentSlice';
@@ -67,17 +69,29 @@ export default function StudentList() {
     dispatch(studentActions.setFilter(filter));
   }
 
+  const handleRemoveStudent = async (student: Student) => {
+    try {
+      await studentApi.remove(student.id as string);
+      const newFilter = { ...filter };
+      dispatch(studentActions.setFilter(newFilter));
+    } catch (error) {
+      console.log("Fail to remove student ", error);
+    }
+  }
+
   return (
     <Box className={classes.root}>
       <Box className={classes.titleContainer}>
         <Typography variant="h4">Students</Typography>
-        <Button variant='contained' color='primary'>Add New Student</Button>
+        <Link to="/admin/students/add">
+          <Button variant='contained' color='primary'>Add New Student</Button>
+        </Link>
       </Box>
       {isLoading && <LinearProgress className={classes.loading} />}
       <Box mb={3}>
-        <StudentFilter filter={filter} cityList={cityList} onChange={handleFilterChange} onSearchChange={handleSearchChange}/>
+        <StudentFilter filter={filter} cityList={cityList} onChange={handleFilterChange} onSearchChange={handleSearchChange} />
       </Box>
-      <StudentTable studentList={studentList} cityMap={cityMap} />
+      <StudentTable studentList={studentList} cityMap={cityMap} onRemove={handleRemoveStudent} />
       <Box className={classes.pagination}>
         <Pagination
           count={Math.ceil(pagination._totalRows / pagination._limit)}
