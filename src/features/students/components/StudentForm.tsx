@@ -18,11 +18,12 @@ export default function StudentForm({ initialValue, onSubmit }: StudentFormProps
 
     const handleFormSubmit = (formValues: Student) => {
         console.log(formValues);
+        onSubmit?.(formValues);
     }
 
     const genderOptions : RadioOption[] = [
         { label: 'Male', value: 'male' },
-        { label: 'Female', value: 'female' }
+        {label: 'Female', value: 'female'}
     ];
 
     return (

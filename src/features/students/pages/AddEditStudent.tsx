@@ -2,9 +2,10 @@ import { ChevronLeft } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import { createStyles, makeStyles } from '@mui/styles';
 import studentApi from 'api/studentApi';
+import { useAppDispatch } from 'app/hooks';
 import { Student } from 'models';
 import React, { useEffect, useState } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import StudentForm from '../components/StudentForm';
 
 const useStyles = makeStyles(() =>
@@ -21,7 +22,9 @@ export default function AddEditStudent() {
   const onEdit = Boolean(studentId);
   const classes = useStyles();
   const [student, setStudent] = useState<Student>();
-  console.log(student)
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (!studentId) return;
 
@@ -29,7 +32,7 @@ export default function AddEditStudent() {
       const response: Student = await studentApi.getById(studentId);
       setStudent(response);
     })()
-  }, [studentId])
+  }, [studentId, student])
 
   const initialValue: Student = {
     name: '',
@@ -40,8 +43,20 @@ export default function AddEditStudent() {
     ...student,
   } as Student;
 
-  const handleFormSubmit = (formValue: Student) => {
-
+  const handleFormSubmit = async (formValue: Student) => {
+    try {
+      if (onEdit && formValue) {
+        await studentApi.update(formValue);
+        setStudent(formValue);
+        alert("Update successfully!");
+      } else if(!onEdit && formValue){
+        await studentApi.add(formValue);
+        setStudent(formValue);
+        alert("Add successfully!");
+      }
+    } catch (error) {
+      console.log("Fail to retrieve student", error);
+    }
   }
 
   return (

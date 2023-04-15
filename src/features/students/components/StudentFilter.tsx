@@ -17,7 +17,12 @@ export interface StudentFilterProps {
 
 export default function StudentFilter({ filter, cityList, onChange, onSearchChange }: StudentFilterProps) {
     const searchRef = useRef<HTMLInputElement>();
+    const cityFilterRef = useRef<HTMLSelectElement>();
+    const sortRef = useRef<HTMLSelectElement>();
 
+    if (cityFilterRef) {
+        console.log(cityFilterRef.current?.value);
+    }
     const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (!onSearchChange) return;
 
@@ -72,8 +77,10 @@ export default function StudentFilter({ filter, cityList, onChange, onSearchChan
 
         onChange(newFilter);
 
-        if (searchRef.current) {
+        if (searchRef.current && cityFilterRef.current && sortRef.current) {
             searchRef.current.value = '';
+            cityFilterRef.current.value = '';
+            sortRef.current.value = '';
         }
     }
 
@@ -96,10 +103,10 @@ export default function StudentFilter({ filter, cityList, onChange, onSearchChan
                         <InputLabel id="filterByCity">Filter by city</InputLabel>
                         <Select
                             labelId="filterByCity"
-                            id="demo-select-small"
                             value={filter.code}
                             label="Filter by city"
                             onChange={handleFilterChange}
+                            ref={cityFilterRef}
                         >
                             <MenuItem value="">
                                 <em>All</em>
@@ -118,10 +125,10 @@ export default function StudentFilter({ filter, cityList, onChange, onSearchChan
                         <InputLabel id="sortBy">Sort by</InputLabel>
                         <Select
                             labelId="sortBy"
-                            id="demo-select-small"
                             value={filter._sort ? `${filter._sort}.${filter._order}` : ''}
                             label="Sort by"
                             onChange={handleSortChange}
+                            ref={sortRef}
                         >
                             <MenuItem value="">
                                 <em>None</em>
