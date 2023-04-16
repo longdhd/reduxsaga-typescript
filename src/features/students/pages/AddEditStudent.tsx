@@ -6,6 +6,7 @@ import { useAppDispatch } from 'app/hooks';
 import { Student } from 'models';
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import customHistory from 'utils/history';
 import StudentForm from '../components/StudentForm';
 
@@ -44,14 +45,19 @@ export default function AddEditStudent() {
   } as Student;
 
   const handleFormSubmit = async (formValue: Student) => {
+    let toastMessage : string;
     if (onEdit) {
       await studentApi.update(formValue);
+      toastMessage = "Edit sucessfully";
     } else {
       await studentApi.add(formValue);
+      toastMessage = "Add new student sucessfully";
     }
-
+    
+    toast.success(toastMessage);
     customHistory.push('/admin/students');
   }
+
 
   return (
     <>

@@ -1,13 +1,15 @@
+import { CssBaseline } from '@mui/material';
+import CustomRouter from 'components/Common/CustomRouter';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { store } from './app/store';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import './index.css';
-import CustomRouter from 'components/Common/CustomRouter';
+import { ToastContainer } from 'react-toastify';
 import customHistory from 'utils/history';
-import { CssBaseline } from '@mui/material';
+import App from './App';
+import { store } from './app/store';
+import './index.css';
+import reportWebVitals from './reportWebVitals';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -18,6 +20,20 @@ root.render(
       <CustomRouter history={customHistory}>
         <CssBaseline />
         <App />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        {/* Same as */}
+        <ToastContainer />
       </CustomRouter>
     </Provider>
   </React.StrictMode>

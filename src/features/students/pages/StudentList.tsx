@@ -7,6 +7,7 @@ import { cityActions, selectCityList, selectCityMap } from 'features/city/citySl
 import { ListParams, Student } from 'models';
 import React, { ChangeEvent, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import StudentFilter from '../components/StudentFilter';
 import StudentTable from '../components/StudentTable';
 import { selectStudentFiler, selectStudentList, selectStudentLoading, selectStudentPagination, studentActions } from '../studentSlice';
@@ -72,6 +73,7 @@ export default function StudentList() {
   const handleRemoveStudent = async (student: Student) => {
     try {
       await studentApi.remove(student.id as string);
+      toast.success("Remove student successfully!");
       const newFilter = { ...filter };
       dispatch(studentActions.setFilter(newFilter));
     } catch (error) {
@@ -89,7 +91,7 @@ export default function StudentList() {
       </Box>
       {isLoading && <LinearProgress className={classes.loading} />}
       <Box mb={3}>
-         <StudentFilter filter={filter} cityList={cityList} onChange={handleFilterChange} onSearchChange={handleSearchChange} />
+        <StudentFilter filter={filter} cityList={cityList} onChange={handleFilterChange} onSearchChange={handleSearchChange} />
       </Box>
       <StudentTable studentList={studentList} cityMap={cityMap} onRemove={handleRemoveStudent} />
       <Box className={classes.pagination}>

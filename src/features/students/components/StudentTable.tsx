@@ -120,7 +120,7 @@ export default function StudentTable({ studentList, cityMap, onEdit, onRemove }:
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure, mate? This action&apos;t be undone.
+                        Are you sure, mate? This action can&apos;t be undone.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
