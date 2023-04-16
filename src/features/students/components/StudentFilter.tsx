@@ -19,10 +19,6 @@ export default function StudentFilter({ filter, cityList, onChange, onSearchChan
     const searchRef = useRef<HTMLInputElement>();
     const cityFilterRef = useRef<HTMLSelectElement>();
     const sortRef = useRef<HTMLSelectElement>();
-
-    if (cityFilterRef) {
-        console.log(cityFilterRef.current?.value);
-    }
     const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (!onSearchChange) return;
 
@@ -103,7 +99,7 @@ export default function StudentFilter({ filter, cityList, onChange, onSearchChan
                         <InputLabel id="filterByCity">Filter by city</InputLabel>
                         <Select
                             labelId="filterByCity"
-                            value={filter.code}
+                            defaultValue={filter.code ? filter.code : ''}
                             label="Filter by city"
                             onChange={handleFilterChange}
                             ref={cityFilterRef}
@@ -112,9 +108,10 @@ export default function StudentFilter({ filter, cityList, onChange, onSearchChan
                                 <em>All</em>
                             </MenuItem>
 
-                            {cityList.map(city =>
-                                <MenuItem value={city.code} key={city.code}>{city.name}</MenuItem>
-                            )}
+                            {cityList.length > 0
+                                ? cityList.map(city =>
+                                    <MenuItem value={city.code} key={city.code}>{city.name}</MenuItem>)
+                                : <MenuItem>-</MenuItem>}
 
                         </Select>
                     </FormControl>

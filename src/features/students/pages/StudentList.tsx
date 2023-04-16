@@ -89,7 +89,7 @@ export default function StudentList() {
       </Box>
       {isLoading && <LinearProgress className={classes.loading} />}
       <Box mb={3}>
-        <StudentFilter filter={filter} cityList={cityList} onChange={handleFilterChange} onSearchChange={handleSearchChange} />
+         <StudentFilter filter={filter} cityList={cityList} onChange={handleFilterChange} onSearchChange={handleSearchChange} />
       </Box>
       <StudentTable studentList={studentList} cityMap={cityMap} onRemove={handleRemoveStudent} />
       <Box className={classes.pagination}>

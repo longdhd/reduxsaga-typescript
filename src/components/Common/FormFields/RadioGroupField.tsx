@@ -41,7 +41,7 @@ export default function RadioGroupField({ name, control, label, options}: RadioG
                 row
             >
                 {options.map(option => (
-                    <FormControlLabel value={option.value} control={<Radio size='small'/>} label={option.label} />
+                    <FormControlLabel key={option.value} value={option.value} control={<Radio size='small'/>} label={option.label} />
                 ))}
             </RadioGroup>
             <FormHelperText>{error?.message}</FormHelperText>
